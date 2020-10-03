@@ -1,0 +1,184 @@
+
+<html>
+
+    <head>
+        <title>My Game</title>
+    
+        <style>
+            body {
+                background-color: black;
+                color: white;
+                font-size: large;
+                text-align: center;
+            }
+            .guide strong {
+                color: white;
+                /*background:yellow;*/
+                font-size:x-large;
+            }
+            .guide {
+                margin: auto;
+                width: 50%;
+                border: rgb(161, 114, 42) solid 3px;
+                background: green;
+            }
+            .ball1, .ball2, .ball3, .ball4 {
+                background-color: yellow;
+                color: black;
+                line-height: 100px;
+                width: 100px;
+                height: 100px;
+                margin: auto;
+                border-radius: 50%;
+                margin-bottom: 20px;
+                margin-right: auto;
+                margin-left: auto;
+                transition: 0.3s;
+            }
+        </style>
+    </head>
+    
+    
+    <body>
+        <h1><strong>The Ball</strong></h1>  
+
+        <div class="guide">
+            <strong>Guidelines:</strong>
+            <p>Ball 1 Response: ball number 3 (ON/OFF) and ball number 4 (only number 2)</p>
+            <p>Ball 2 Response: ball number 3 (ON/OFF) and ball number 4 (only number 1)</p>
+        </div>
+ 
+        <div id="bal1" class="ball1" onclick="onBall1Click()">
+            100
+        </div>
+        <div class="ball2" onclick="onBall2Click()">
+            100
+        </div>
+        <div id="bal3" class="ball3" onclick="onBall3Click()">
+            ON
+        </div>
+        <div id='bal4' class="ball4" onclick="onBall4Click()">
+            1
+        </div>
+
+
+    
+  <script>
+
+            // starter the items i will need.
+            var ball1Size       = 100;
+            var ball2Size       = 100;      //part of task#2 - Size of Ball2 
+            var ball2SizeStep   = 50;       //part of task#2 - increment/decrement of Ball2 size
+            var isBall3OnToggle = true;     //part of task#3 - reflects is Ball3 text is "ON"
+            var num_ball4 = 1;
+    
+            function onBall1Click() {
+                
+                if (num_ball4 === 2 || isBall3OnToggle == false) return; // the return solution of sawsawn
+                // call to bal number 1.
+                var elBall1 = document.querySelector('.ball1');
+                    // greater the ball size by the step.
+                ball1Size = ball1Size + ball2SizeStep;
+               // }
+                // ball be red in 250.
+                if (ball1Size === 250) {
+                    elBall1.style.backgroundColor = 'red';
+                }
+                // ball back to 100 if goes after 400.
+                if (ball1Size > 400) {
+                    ball1Size = 100
+                }
+                
+                // task 1(Ball1) first : When Ball1 shrinks back to 100 - change its color from Red to Yellow
+                if (ball1Size === 100) {
+                    elBall1.style.backgroundColor = 'yellow';
+                }
+
+                // show on the ball everything that append up^^ and sum it with pixle on the ball.
+                elBall1.innerText = ball1Size;
+                elBall1.style.width = ball1Size + 'px';
+                elBall1.style.height = ball1Size + 'px';
+            }
+
+            // Task 2(Ball2) create another ball:
+            /*When the ball reaches the size of 400, every click will shrink its size.
+            When the ball size reaches 100, it again starts to grow
+            So, with the clicks, ball size goes as follows:
+            100, 150, 200, 250, 300, 350, 400, 350, 300, 250, 200, 150, 100, 150, 200 ....  */ 
+
+            function onBall2Click() {
+                // call to ball number 2.
+                var elBall2 = document.querySelector('.ball2');
+
+                // stop the ball size up forward. example: if ball4 text equal 1 number or ball3 its 'OFF'.
+                if (num_ball4 === 1 || isBall3OnToggle == false) {
+                    // open call to the ball 1 to stack(prevend deafult) for not get stack when move other ball after one.
+               		document.getElementById("bal1").addEventListener("click", function(event){
+                    	// function will be stack.
+                    	event.preventDefault()
+                    });
+                    //ball2SizeStep = 0; //Option number 2.(give a stack when change ball size and move to other ball.)?????
+                } else {
+                    // greater the ball size by the step.
+                    ball2Size = ball2Size + ball2SizeStep;
+                    
+                    // change the ball size when it over the 400px.
+                    if (ball2Size >= 400) {
+                        ball2SizeStep = -ball2SizeStep;
+                        elBall2.style.backgroundColor = 'red';
+
+                    //  ball size go up size from 100 by 50px. and change collor only if its equal 100.
+                    } else {
+                        if (ball2Size <= 100) {
+                            ball2SizeStep = 50;     
+                            elBall2.style.backgroundColor = 'yellow';  
+                        };
+                    };
+
+                }              
+                //print on the ball the result (text + pixle size).
+                elBall2.innerText = ball2Size
+                elBall2.style.height = ball2Size + 'px';
+                elBall2.style.width = ball2Size + 'px';
+            }  
+
+            //Task 3 create same ball and the ball do the ON and OFF with yellow and grey color..
+
+            function onBall3Click() {
+
+                // call to ball number 4.
+                elBall3 = document.querySelector('.ball3');
+                // check  if its true. (if yes change the isBall3OnToggle to !False!). change the color and text. 
+                if (isBall3OnToggle) {
+                    isBall3OnToggle = false;
+                    document.body.style.backgroundColor = 'white';
+                    elBall3.style.backgroundColor = 'grey';
+                    elBall3.innerText = 'OFF'
+                } else {
+                    // if its false change to !True! and also color and text.
+                    isBall3OnToggle = true;
+                    document.body.style.backgroundColor = 'black';      
+                    elBall3.style.backgroundColor = 'yellow';
+                    elBall3.innerText = 'ON';
+                };
+            }
+          
+            function onBall4Click() {
+
+                // call to ball number 4.
+                elBall4 = document.querySelector('.ball4');
+                 
+                // move up the number inside the ball 4.
+                num_ball4 = num_ball4 + 1
+                // maxmium its 3.
+                if (num_ball4 > 3) {
+                    num_ball4 = 1;
+                }
+                // write on the ball the number.
+                elBall4.innerHTML = num_ball4;
+            }
+
+        </script>
+    </body>
+    
+    </html>
